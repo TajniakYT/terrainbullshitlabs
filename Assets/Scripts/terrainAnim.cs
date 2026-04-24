@@ -29,6 +29,7 @@ public class TerrainGenerator : MonoBehaviour
     private float[,] currentHeights;
     private float[,] startHeights;
     private float[,] targetHeights;
+    private SpringJoint playerSpringJoint;
 
     private bool isTransitioning = false;
 
@@ -39,6 +40,9 @@ public class TerrainGenerator : MonoBehaviour
 
         xRes = terrainData.heightmapResolution;
         yRes = terrainData.heightmapResolution;
+
+        if (player != null)
+            playerSpringJoint = player.GetComponent<SpringJoint>();
 
         GenerateInitialTerrain();
         UpdateTerrainTextures();
@@ -99,6 +103,9 @@ public class TerrainGenerator : MonoBehaviour
         startHeights = terrainData.GetHeights(0, 0, xRes, yRes);
         targetHeights = GenerateNoise();
 
+        if (playerSpringJoint != null) {
+            playerSpringJoint.minDistance = 0f;
+        }
         StartCoroutine(BlendTerrain(impactPoint));
     }
 
@@ -145,6 +152,10 @@ public class TerrainGenerator : MonoBehaviour
         currentHeights = targetHeights;
         UpdateTerrainTextures();
         isTransitioning = false;
+        if (playerSpringJoint != null)
+        {
+            playerSpringJoint.minDistance = 10000f;
+        }
     }
 
     // =========================
@@ -184,18 +195,18 @@ public class TerrainGenerator : MonoBehaviour
 
                 float[] weights = new float[terrainData.alphamapLayers];
 
-                // Przyk³ad: 3 tekstury (0 = trawa, 1 = ska³a, 2 = œnieg)
-                float blendRange = 0.05f; // szerokoœæ przejœcia (dostosuj!)
+                // Przykï¿½ad: 3 tekstury (0 = trawa, 1 = skaï¿½a, 2 = ï¿½nieg)
+                float blendRange = 0.05f; // szerokoï¿½ï¿½ przejï¿½cia (dostosuj!)
 
                 float grassWeight = 0f;
                 float rockWeight = 0f;
                 float snowWeight = 0f;
 
-                // Trawa -> Ska³a
+                // Trawa -> Skaï¿½a
                 float t1 = Mathf.InverseLerp(grockBorder - blendRange, grockBorder + blendRange, height);
                 t1 = Mathf.Clamp01(t1);
 
-                // Ska³a -> Œnieg
+                // Skaï¿½a -> ï¿½nieg
                 float t2 = Mathf.InverseLerp(rnowBorder - blendRange, rnowBorder + blendRange, height);
                 t2 = Mathf.Clamp01(t2);
 
@@ -209,7 +220,7 @@ public class TerrainGenerator : MonoBehaviour
                 weights[1] = rockWeight;
                 weights[2] = snowWeight;
 
-                // Normalizacja (wa¿ne!)
+                // Normalizacja (waï¿½ne!)
                 float sum = 0;
                 for (int i = 0; i < weights.Length; i++) sum += weights[i];
                 for (int i = 0; i < weights.Length; i++) weights[i] /= sum;

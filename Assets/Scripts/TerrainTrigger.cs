@@ -10,7 +10,6 @@ public class TerrainTrigger : MonoBehaviour
         {
             Debug.Log(transform.position);
             terrain.StartTerrainTransition(transform.position);
-            Destroy(gameObject); // opcjonalnie: znika po u¿yciu
         }
     }
 }
