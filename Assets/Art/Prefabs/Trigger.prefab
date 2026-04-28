@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8501438282575937647}
-  - component: {fileID: 1012760945039872635}
+  - component: {fileID: 5962797528663813121}
   - component: {fileID: 8604556028886160141}
   m_Layer: 0
   m_Name: Trigger
@@ -34,8 +34,8 @@ Transform:
   - {fileID: 8473598179360239140}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1012760945039872635
-SphereCollider:
+--- !u!136 &5962797528663813121
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -52,8 +52,10 @@ SphereCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 2
   m_Radius: 2
+  m_Height: 586.9
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8604556028886160141
 MonoBehaviour:
